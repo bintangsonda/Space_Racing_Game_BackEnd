@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login to Space Typing Game</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    @font-face{
+    font-family:"snk";
+    src:url('snk.ttf') format('truetype');
+    }
+    body{
+        font-family:"snk";
+    
+}
+      input{
+          font-family:"snk";
+      }
+      button{
+          font-family:"snk";
+      }
+  </style>
+</head>
+<body style="background-image:url('Images/login-gif.gif'); background-repeat: no-repeat; background-size: cover; color:white;">
+  <div class="header" style="background:none; color:orange;">
+  	<h2 style="font-size:40px;">Login</h2>
+  </div>
+	 
+ <div class="form" style="background:none; font-size:30px;">
+  	<div class="input-group" >
+  		<label style="color:red">Username</label>
+  		<input type="text" name="username" id="username">
+  	</div>
+  	<div class="input-group">
+  		<label style="color:green">Password</label>
+  		<input type="password" name="password" id="password">
+  	</div>
+  	<div class="input-group">
+  		<button type="submit" class="btn" name="login_user" onclick="checkUser()">Login</button>
+  	</div>
+  	<p>
+  		Not yet a member? <a href="regis.html">Sign up</a>
+  	</p>
+  </div>
+  
+  <script>
+      function checkUser(){
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+        
+        let req = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("status","validate"); //to ask the server to validate the account
+        req.open("POST", "main.php", true);
+        req.send(formData);
+        req.onreadystatechange = function() {
+            if (req.readyState == 4 && req.status == 200) {
+                console.log(req.responseText);
+                
+                if(req.responseText == "y")
+                {
+                    window.location.href = 'index.html';
+                } else
+                {
+                    alert("please check again your input!");
+                }
+            }
+        }
+      }
+  </script>
+</body>
+</html>

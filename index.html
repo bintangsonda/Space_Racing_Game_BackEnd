@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href ='enemy.png' rel ='shortcut icon'>
+    <title>SPACE AIRCRAFT RACE || By MBS</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;        
+        }
+        @font-face{
+    font-family:"snk";
+    src:url('snk.ttf') format('truetype');
+}
+*{
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+}
+body{
+    
+    color:white;
+    font-family: "snk";
+    
+}
+        .hide{
+            display: none;
+        }
+        .car{
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            position: absolute;
+            top : 550px;
+            left:175px;
+            /*background-image: url(pp/car.png);*/
+            /*background-size: cover;*/
+        }
+        .container{
+            display:flex;
+            justify-content:space-between;
+        }
+        
+        /*====================================== LEADERBOARD AREA =============================================*/
+        .LeaderArea{
+            position:relative;
+            flex-grow:1;
+        }
+        .LeaderArea h3{
+            position:absolute;
+            padding: 10px 10px;
+            font-size:40px;
+            text-shadow:2px 2px 10px yellow, 10px 10px 50px yellow;
+        }
+        .LeaderArea h4{
+            position:absolute;
+            top:45px;
+            padding: 10px 10px;
+            font-size:20px;
+            text-shadow:2px 2px 10px white, 10px 10px 50px yellow;
+        }
+        .LeaderArea .leaderboard{
+            max-height:60vh;
+            position:absolute;
+            top:120px;
+            left:10px;
+        }
+        .LeaderArea #maps{
+            position:absolute;
+            top:300px;
+            left:10px;
+        }
+        #leaderContainer{
+            background-color:rgba(207, 77, 227,0.2);
+            padding:10px;
+            border-radius:5%;
+            border:1px solid white;
+            max-height:40vh;
+            overflow-y:scroll;
+            overflow-x:hidden;
+        }
+        /* width */
+        #leaderContainer::-webkit-scrollbar {
+          width: 6vw;
+        }
+        
+        /* Track */
+        #leaderContainer::-webkit-scrollbar-track {
+          /*box-shadow: inset 0 0 5px grey; */
+          /*border-radius: 50%;*/
+        }
+         
+        /* Handle */
+        #leaderContainer::-webkit-scrollbar-thumb {
+          background: url('Images/rocket3.gif') center no-repeat;
+          background-size:70% 100%;
+          /*background: red; */
+          border-radius: 10px;
+        }
+        
+        /*=========================================== GAME AREA ===============================================*/
+        .GameArea{
+            width: 400px;
+            height: 100vh;
+            background-color: rgba(0, 255, 17, 0.15);
+            /*margin: auto;*/
+            position: relative;
+            overflow: hidden;
+            border-left: 1px solid rgb(250, 245, 102);
+            border-right:1px solid rgb(250, 245, 102);
+        }
+        /*========================================== PROFILE AREA ================================================*/
+        .ProfileArea{
+            position:relative;
+            flex-grow:1;
+        }
+        .ProfileArea div{
+            position:absolute;
+        }
+        .ProfileArea .profile{
+            top:10px;
+            right:10px;
+        }
+        .ProfileArea .profile-btn1{
+            width:150px;
+            padding:10px;
+            position:absolute;
+            top:450px;
+            left:50px;
+        }
+        .ProfileArea .profile-btn2{
+            width:150px;
+            padding:10px;
+            position:absolute;
+            top:450px;
+            left:280px;
+        }
+        .ProfileArea .arrows{
+            position:absolute;
+            top:180px;
+            right:10px;
+            text-align:center;
+        }
+        .ProfileArea .matrix-btn{
+            position:absolute;
+            top:580px;
+            left:80px;
+        }
+        
+        
+        /*=============================================== OTHER ==============================================*/
+        .lines{
+            width: 0.5px;
+            height: 120px;
+            background: rgb(250, 245, 102);
+            position: absolute;
+            margin-left: 195px;
+        }
+        .CarGame{
+            background-image: url(Images/main-background.webp);
+            background-repeat: repeat;
+            height:100vh;
+            width:100vw;
+        }
+        .allContainer{
+            width:1280px;
+            height:100%;
+            position:relative;
+            margin:auto;
+        }
+        .other{
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            background-image : url(Images/enemy.png);
+            transform: rotate(180deg);
+            background-size:100% 100%;
+            position: absolute;
+            bottom: 120px;
+        }
+        .Score{
+            position: absolute;
+            top: 230px;
+            left: 30px;
+            text-align: left;
+            padding-top: 23px;
+            font-size: 30px;
+            line-height: 20px;
+            color: white;
+            width: 300px;
+            height: 100px;
+        }
+        .StartScreen{
+            position: absolute;
+            background-color: rgba(68, 252, 231, 0);
+            color: white;
+            z-index: 1;
+            margin-top: 210px;
+            margin-left:25vw;
+            text-align: center;
+            box-shadow: 0 0 20px 0px rgba(0,0,0,1);
+            font-size: 30px;
+            width: 50%;
+            height: 200px;
+            cursor: pointer;
+            border-radius: 23px;
+            color:rgb(207, 155, 52);
+
+        }
+        
+        button {
+          cursor: pointer;
+          background: none;
+          border: 2px solid;
+          font: inherit;
+          line-height: 1;
+          margin: 0.5em;
+          padding: 0.5em 1em;
+          transition:0.25s;
+          color:white; 
+          font-size:20px;
+          border-radius:15%;
+          transition: all .2s ease-in-out;
+        }
+        button:hover{
+            transform: scale(1.1);
+            box-shadow:0 0 20px white;
+        }
+        .monsterimg {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            
+        }
+    </style>
+</head>
+<body onload="getdata()">
+    <div class="CarGame">
+        <div class="StartScreen">
+                <p>CLICK HERE TO START GAME !!<br><br>Arrow Keys to move<br><br>Do not crash other SpaceShips</p>
+            </div>
+        <div class="allContainer">
+            
+            <div class="container">
+                <img style=" width:90px; height:90px; right: 909px; top: 90px;" class="monsterimg" src="Images/monsters/4.png">
+                <!--<img style="width: 35px; height:35px; right: 850px; top: 222px;" class="monsterimg" src="Images/monsters/2.png">-->
+                <img style="width: 45px; height:45px; right: 840px; top: 32px;" class="monsterimg" src="Images/monsters/3.png">
+                <img style="width: 80px; height:80px; right: 875px; top: 490px;" class="monsterimg" src="Images/monsters/1.png">
+                <!--<img style="right: 847px; top: 595px;" class="monsterimg" src="Images/monsters/5.png">-->
+                <img style="right: 365px; top: 23px;" class="monsterimg" src="Images/monsters/6.png">
+                <img style="right: 305px; top: 159px;" class="monsterimg" src="Images/monsters/7.png">
+                <img style="width:80px; height:80px; right:218px; top:48px;" class="monsterimg" src="Images/monsters/8.png">
+                <div style="" class="LeaderArea">
+                    <h3>SPACE RACING GAME</h3>
+                    <h4>-by MBS-</h4>
+                    <div class="leaderboard">
+                        <h2 style="text-align:left; margin-left:27px; margin-bottom:30px; color:#ffff70; font-size:33px;">LEADERBOARD</h2>
+                        <div id="leaderContainer">
+                          <input style="width:200px; z-index: 1000 !important;" id="player" type="text" placeholder="Search.." >
+                          <button style="padding:5px;" type="submit" onclick="search(document.getElementById('player').value)">S</button>
+                        </div>
+                        
+                        <div id="maps">
+                            <!--<iframe src="https://embed.waze.com/iframe?zoom=13&lat=48.864716&lon=2.349014&pin=1" width="100%" height="520"></iframe>-->
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="GameArea">
+                    
+                </div>
+                <div class="ProfileArea">
+                    <div class="profile">
+                        <span id="username" style="position:relative; bottom:27px; right:20px; font-size:30px"></span>
+                        <span><img style="width:75px; height:75px; border-radius:100%;" id="pp" alt="profile_picture" ></span>
+                    </div>
+                    <div class="arrows">
+                        <h3>CONTROL MOVE</h3><br>
+                        <img style="width:150px; height:150px; filter:invert(100%);" src="Images/arrows.png">
+                    </div>
+                     <div class="profile-btn">
+                         <button class="profile-btn1" style="background-color:grey;" onclick="deleteAccount()">Delete Account</button>
+                         <button class="profile-btn2" style="background-color:red;" onclick="logout()">Log out</button>
+                     </div>
+                     <div class="matrix-btn">
+                         <a href="matrix.html" style="color:yellow; font-size:40px">GO TO MATRIX PAGE<img style="width:75px; height:50px;vertical-align: middle;" src="Images/rightarrows.png"></a>
+                     </div>
+                    <div class="Score"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>       
+    <script>
+        const score=document.querySelector('.Score');
+        const startscreen=document.querySelector('.StartScreen');
+        const gamearea=document.querySelector('.GameArea');
+        let maps_showed = false;
+        let player={ speed:15,score:0};
+        let highest=0;
+        startscreen.addEventListener('click',start);
+        
+        let keys={ArrowUp: false, ArrowDown: false, ArrowRight: false, ArrowLeft: false};
+
+        document.addEventListener('keydown',keyDown);
+        document.addEventListener('keyup',keyUp);
+        function keyDown(ev){
+            if(ev.target.id != "player")
+            {
+                ev.preventDefault();
+                keys[ev.key]=true;
+            }
+        }
+        function keyUp(ev){
+            if(ev.target.id != "player")
+            {
+                ev.preventDefault();
+                keys[ev.key]=false;
+            }
+        }
+        function isCollide(a,b){
+            aRect=a.getBoundingClientRect();
+            bRect=b.getBoundingClientRect();
+
+            return !((aRect.bottom<bRect.top)||(aRect.top>bRect.bottom)||(aRect.right<bRect.left)||(aRect.left>bRect.right));
+        }
+        function moveLines(){
+            let lines=document.querySelectorAll('.lines');
+            lines.forEach(function(item){
+                if(item.y>=700){
+                    item.y-=750;
+                }
+                item.y+=player.speed;
+                item.style.top=item.y+'px';
+
+            })
+        }
+        function endGame(){
+            player.start=false;
+            startscreen.classList.remove('hide');
+            if(player.score>=highest)
+            {
+                savescore(player.score);
+            }
+        }
+        function moveCar(car){
+            let other=document.querySelectorAll('.other');
+            other.forEach(function(item){
+                if(isCollide(car,item)){
+                    console.log('HIT');
+                    endGame();
+                }
+                if(item.y>=750){
+                    item.y=-300;
+                    item.style.left=Math.floor(Math.random()*350) + 'px';
+                }
+                item.y+=player.speed;
+                item.style.top=item.y+'px';
+
+            })
+        }
+        function gamePlay(){
+
+            let car=document.querySelector('.car');
+            let road=gamearea.getBoundingClientRect();
+
+            if(player.start){
+
+                moveLines();
+                moveCar(car);
+                if(keys.ArrowUp && player.y>(road.top+70)){
+                    player.y-=player.speed;
+                }
+                if(keys.ArrowDown && player.y<(road.top+550)){
+                    player.y+=player.speed;
+                }
+                if(keys.ArrowLeft && player.x>0){
+                    player.x-=player.speed;
+                }
+                if(keys.ArrowRight && player.x<(road.width-50)){
+                    player.x+=player.speed;
+                }
+
+                car.style.top=player.y + 'px';
+                car.style.left=player.x + 'px';
+
+                window.requestAnimationFrame(gamePlay);
+                //console.log(player.score++);
+                player.score++;
+                if(player.score>=highest)
+                {
+                    highest=player.score;
+                }
+                score.innerHTML="Your Score:"+ player.score+"<br><br><br><br><br>"+"Highest Score:"+highest;
+
+
+            }
+            
+        }
+        
+        function start(){
+            //gamearea.classList.remove('hide');
+            startscreen.classList.add('hide');
+            var list = document.getElementById("leaderContainer");
+            while (list.childNodes[4]) {  
+              list.removeChild(list.childNodes[4]);
+            }
+            getdata();
+            gamearea.innerHTML="";
+
+            player.start=true;
+            player.score=0;
+            window.requestAnimationFrame(gamePlay);
+            
+
+
+           for(x=0;x<5;x++){
+                let roadline=document.createElement('div');
+                roadline.setAttribute('class','lines');
+                roadline.y=(x*150);
+                roadline.style.top=roadline.y+'px';
+                gamearea.appendChild(roadline);
+            }
+            
+            let car=document.createElement('div');
+            let bg=document.createElement('img');
+            bg.src=document.getElementById('pp').src;
+            bg.style.height="50px";
+            bg.style.width="50px";
+            car.setAttribute('class','car');
+            car.appendChild(bg);
+            gamearea.appendChild(car);
+
+            player.x=car.offsetLeft;
+            player.y=car.offsetTop;
+
+
+            for(x=0;x<3;x++){
+                let othercar=document.createElement('div');
+                othercar.setAttribute('class','other');
+                othercar.y=((x+1)*350)* -1;
+                othercar.style.top=othercar.y+'px';
+                othercar.style.left=Math.floor(Math.random()*350) + 'px';
+                gamearea.appendChild(othercar);
+            }
+        }
+        
+        //=============================== AJAX =============================
+        function search(player)
+        {
+            var list = document.getElementById("leaderContainer");
+            while (list.childNodes[4]) {  
+              list.removeChild(list.childNodes[4]);
+            }
+            
+            x1 = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append("status","search");
+            formData.append("player",player);
+            x1.open("POST", "main.php", true);
+            x1.send(formData);
+            x1.onreadystatechange=function() {
+              if(x1.readyState==4 && x1.status==200) {
+                addLeaderboard(JSON.parse(x1.responseText),0);
+              }
+            }
+        }
+        
+        function showMaps(input)
+        {
+            let lat="";
+            let long="";
+            switch(input)
+            {
+                case "Argentina":
+                    la = -34.58333333;
+                    long = -58.666667;
+                    break;
+                case "Canada":
+                    lat = 45.41666667;
+                    long = -75.7;
+                    break;
+                case "China":
+                    lat = 39.91666667
+                    long = 116.383333
+                    break;
+                case "Cuba":
+                    lat =  23.11666667
+                    long = -82.35
+                    break;
+                case "Finland":
+                    lat = 60.16666667
+                    long = 24.933333
+                    break;
+                case "France":
+                    lat = 48.86666667 
+                    long = 2.333333	
+                    break;
+                case "Germany":
+                    lat = 52.51666667 
+                    long = 13.4
+                    break;
+                case "Indonesia":
+                    lat = -6.166666667
+                    long = 106.816667
+                    break;
+                case "Italy":
+                    lat = 41.9
+                    long = 12.483333
+                    break;
+                case "Portugal":
+                    lat = 38.71666667
+                    long = -9.133333
+                    break;
+                case "Russia":
+                    lat =  55.75
+                    long = 37.6
+                    break;
+                case "Singapore":
+                    lat =  1.283333333
+                    long = 103.85
+                    break;
+                case "South Korea":
+                    lat =   37.55
+                    long =  126.983333
+                    break;
+                case "Spain":
+                    lat =  40.4
+                    long =  -3.683333
+                    break;
+                case "Switzerland":
+                    lat = 46.91666667
+                    long = 7.466667
+                    break;
+                case "Thailand":
+                    lat = 13.75
+                    long = 100.516667
+                    break;
+                case "UEA":
+                    lat = 24.46666667
+                    long = 54.366667
+                    break;
+                case "UK":
+                    lat = 51.5	
+                    long = -0.083333
+                    break;
+                case "USA":
+                    lat = 38.883333
+                    long = -77
+                    break;
+            }
+
+	    let waze = document.createElement('iframe');
+            waze.src = "https://embed.waze.com/iframe?zoom=13&lat=" + lat + "&lon=" + long + "&pin=1";
+            waze.width = "300px";
+            waze.height = "200";
+            document.getElementById("maps").appendChild(waze);
+        }
+        function savescore(score) {
+        x1 = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("status","savescore");
+        formData.append("score",score);
+        x1.open("POST", "main.php", true);
+        x1.send(formData);
+        x1.onreadystatechange=function() {
+          if(x1.readyState==4 && x1.status==200) {
+              alert(x1.responseText);
+            // document.getElementById("res").innerHTML = x1.responseText;
+          }
+        }
+        }
+        
+     
+        
+        function getdata() {
+        req = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("status","getdata");
+        req.open("POST", "main.php", true);
+        req.send(formData);
+        req.onreadystatechange=function() {
+          if(req.readyState==4 && req.status==200) {
+              console.log(req.responseText);
+            var UserDatas = JSON.parse(req.responseText);
+            //Insert data of current logged user from the server into the user profile section in the page
+            document.getElementById("username").innerHTML = UserDatas[0].username;
+            document.getElementById("pp").src = UserDatas[0].pp;
+            if(!maps_showed)
+            {
+                showMaps(UserDatas[0].nation);
+                maps_showed = true;
+            }
+            highest = UserDatas[0].score;
+            console.log("username from $_SESSION variable in the server : " + UserDatas[0].username);
+            console.log("profile picture location from $_SESSION variable in the server : " + UserDatas[0].pp);
+            
+            //Insert data from the database into the leaderboard section in the page
+            let sortedLeaderboard = UserDatas[1];
+            sortedLeaderboard.forEach(addLeaderboard);
+          }
+        }
+        }
+        
+        function addLeaderboard(item, index) {
+          document.getElementById("leaderContainer").innerHTML +=  '<p style="font-size:28px; width:220px; margin-bottom:40px; border-radius:4%; background-color:#bb2af5; ">' + (index+1) +'. '+'<img style="height:40px; width:40px; vertical-align:middle;" src="' + item["pp"] +'"></img>'+' '+item["username"]+' - '+item["score"]+'</p>'; 
+        }
+        
+       
+        
+        function deleteAccount() {
+        req = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("status","delete");
+        req.open("POST", "main.php", true);
+        req.send(formData);
+        req.onreadystatechange=function() {
+          if(req.readyState==4 && req.status==200) {
+            alert(req.responseText);
+            window.location.href = 'loggin.html';
+          }
+        }
+        }
+        
+        function logout()
+        {
+            window.location.href = 'loggin.html';
+        }
+        
+        
+    </script>
+</body>
+</html>
+

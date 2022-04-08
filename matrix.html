@@ -1,0 +1,116 @@
+<html>
+    <body>
+        <input type="file" name="f1">
+        <input type="submit" value="Upload" onclick="upload()">
+        <br><br>
+        <div>
+            <input type="number" id="a1" min="0" style="width:100px">
+            <input type="number" id="a2" min="0" style="width:100px">
+            <input type="number" id="a3" min="0" style="width:100px">
+            <input type="number" id="a4" min="0" style="width:100px"><br>
+            <input type="number" id="a5" min="0" style="width:100px">
+            <input type="number" id="a6" min="0" style="width:100px">
+            <input type="number" id="a7" min="0" style="width:100px">
+            <input type="number" id="a8" min="0" style="width:100px"><br>
+            <input type="number" id="a9" min="0" style="width:100px">
+            <input type="number" id="a10" min="0" style="width:100px">
+            <input type="number" id="a11" min="0" style="width:100px">
+            <input type="number" id="a12" min="0" style="width:100px">
+            <button onclick="matrix();showdata()">Submit</button>
+            <span id="res"></span>
+            <span id="show"></span>
+        </div>
+            
+ 
+        
+        <script>
+        const numInputs = document.querySelectorAll('input[type=number]')
+
+        numInputs.forEach(function(input) {
+          input.addEventListener('change', function(e) {
+            if (e.target.value == '') {
+              e.target.value = 0
+            }
+          })
+        })
+            function upload()
+            {
+                let photo = document.getElementById("f1").files[0];
+                let req = new XMLHttpRequest();
+                let formdata = new FormData();
+                formdata.append("photo", photo);
+                req.open("POST","upload.php",true);
+                req.send(formdata);
+                req.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        alert(this.responseText);
+                    }
+                }
+            }
+            function showdata()
+            {
+                let req = new XMLHttpRequest();
+                req.open("POST","showdata.php",true);
+                req.send();
+                req.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        document.getElementById("show").innerHTML = "<br>" + this.responseText;
+                    }
+                }
+            }
+            function matrix()
+            {
+                let a1 = document.getElementById("a1").value;
+                let a2 = document.getElementById("a2").value;
+                let a3 = document.getElementById("a3").value;
+                let a4 = document.getElementById("a4").value;
+                let a5 = document.getElementById("a5").value;
+                let a6 = document.getElementById("a6").value;
+                let a7 = document.getElementById("a7").value;
+                let a8 = document.getElementById("a8").value;
+                let a9 = document.getElementById("a9").value;
+                let a10 = document.getElementById("a10").value;
+                let a11 = document.getElementById("a11").value;
+                let a12 = document.getElementById("a12").value;
+                
+                let req = new XMLHttpRequest();
+                let formdata = new FormData();
+                formdata.append("a1", a1);
+                formdata.append("a2", a2);
+                formdata.append("a3", a3);
+                formdata.append("a4", a4);
+                formdata.append("a5", a5);
+                formdata.append("a6", a6);
+                formdata.append("a7", a7);
+                formdata.append("a8", a8);
+                formdata.append("a9", a9);
+                formdata.append("a10", a10);
+                formdata.append("a11", a11);
+                formdata.append("a12", a12);
+                
+                req.open("POST","matrix.php",true);
+                req.send(formdata);
+                req.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        alert("data has been inserted");
+                        document.getElementById("res").innerHTML = "<br>Your result : " + this.responseText;
+                    }
+                }
+            }
+            
+            function deletedata(data)
+            {
+                let req = new XMLHttpRequest();
+                let formdata = new FormData();
+                formdata.append("data", data);
+                req.open("POST","delete.php",true);
+                req.send(formdata);
+                req.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        alert(this.responseText);
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

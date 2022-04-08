@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Space Typing Game by MBS Group</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/jpg" href="/favicon.ico"/>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&family=Russo+One&display=swap');
+@font-face{
+    font-family:"snk";
+    src:url('snk.ttf') format('truetype');
+}
+*{
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+}
+body{
+    
+    color:white;
+    font-family: "snk";
+    background-image:url('giphy.webp');
+}
+/*================== NAVBAR ====================*/
+.menu ul{
+    background-color:none;
+    position: relative;
+    height:14vh;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    list-style:none;
+    padding:0 30px;
+}
+.menu .a1 h3{
+    font-size:40px;
+    text-shadow:2px 2px 10px yellow, 10px 10px 50px yellow;
+}
+.menu ul .a2{
+    width:500px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.menu img {
+    width: 70px;
+    height: 70px;
+    border:2px solid red;
+    border-radius: 50%;
+}
+
+/*================ BUTTON =======================*/
+button {
+  cursor: pointer;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em 1em;
+  transition:0.25s;
+  color:white; 
+  font-size:20px;
+  border-radius:15%;
+  transition: all .2s ease-in-out;
+}
+button:hover{
+    transform: scale(1.1);
+    box-shadow:0 0 20px white;
+}
+
+.try_again{
+    font-size:30px; 
+}
+
+/*====================== CONTAINER ===============================*/
+.containertele{
+    text-align:center;
+    margin-top:50px;
+}
+.txtareatele{
+    width:300px;
+     height:100px;
+    resize:none;
+                }
+.buttontele{
+    margin-top:50px;
+    width : 300px;
+    height:25px;
+}
+        
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1600px;
+    /*width:1350px;*/
+    height:88vh;
+}
+
+.content{
+    margin:0 30px;
+    margin-top:30px;
+    display:flex;
+}
+.leaderboard{
+    width:25%;
+}
+#leaderContainer{
+    max-height:60vh;
+    overflow-y:scroll;
+    overflow-x:hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 6vw;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /*box-shadow: inset 0 0 5px grey; */
+  /*border-radius: 50%;*/
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: url('rocket2.png') center no-repeat;
+  background-size:50% 100%;
+  /*background: red; */
+  border-radius: 10px;
+}
+
+.game{
+    width:80%;
+    text-align:center;
+}
+.game .main{
+    display:flex;
+    position:relative;
+}
+.namegame{
+    border:5px dotted;
+    font-size:20px;
+    width:335px;
+    height:90px;
+    border-radius:20%;
+    animation: color-change 5s linear infinite;
+}
+
+@keyframes color-change {
+0% { color: red; }
+10% { color: green; }
+20% { color: yellow; }
+30% { color: purple; }
+40% { color: white; }
+50% { color: blue; }
+60% { color: orange; }
+70% { color: silver; }
+80% { color: gold; }
+90% { color: brown; }
+100% { color: red; }
+}
+
+.time-container{
+    font-size:30px;
+    margin-left:62px;
+    margin-top:20px;
+    color:#2afa2a;
+}
+
+.score-container{
+    font-size:30px;
+    margin-left:40px;
+    margin-top:20px;
+    width:400px;
+}
+#fscore{
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center;
+    margin-top:30px;
+}
+
+#score{
+    border:none; 
+    background-image:none; 
+    background-color:transparent; 
+    -webkit-box-shadow: none; 
+    -moz-box-shadow: none; 
+    box-shadow: none; 
+    pointer-events: none;
+    
+}
+#word{
+    margin-top:50px;
+    font-size:55px;
+}
+#text{
+    width: 280px; 
+    text-align: center;
+    font-size:20px;
+    height:40px;
+    margin-top:30px;
+}
+    </style>
+  </head>
+  <body onload="getdata()">
+      <div class="container">
+            <div class="menu">
+              <ul>
+             <li class="a1"><h3>MBS GROUP</h3></li>
+             <li class="a2">
+                 <button style="background-color:grey;" onclick="deleteAccount()">Delete Account</button>
+                 <button style="background-color:red;" onclick="logout()">Log out</button>
+                 <span id="username"></span>
+                 <span><img id="pp" alt="profile_picture" ></span>
+             </li>
+             </ul>
+            </div>
+          
+          <div class="content">
+             
+             <div class="leaderboard">
+                <h2 style="text-align:left; margin-left:27px; margin-bottom:30px; color:#ffff70; font-size:33px;">LEADERBOARD</h2>
+                <div id="leaderContainer"></div>
+             </div>
+             
+             <div class = 'game'>
+                <div class="main">
+                        <div style="max-width:25vw">
+                            <p style="text-align:left;" class="time-container">Time Left : <span id="time" ></span></p>
+                            <p id="score-container" class="score-container">
+                            Score : <input style="border:none; font-family:snk; font-size:30px; color:white; background-image:none; background-color:transparent; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; pointer-events: none;" type="text" id="score" value="0" readonly>
+                             </p>
+                        </div>
+                        <div >
+                            <div class="namegame">
+                            <h1 style="margin-top:13px;" >MATRIX GAME</h1>
+                            </div>
+                              <div id="end-game-container" class="end-game-container">
+                              </div>
+                        </div>
+                </div>
+                <div id="fscore"></div> 
+                <span id="res"></span>
+                
+              </div>
+          </div>
+            
+               
+        
+    </div>
+    
+    <script>
+     
+        const word = document.getElementById("word");
+        const text = document.getElementById("text");
+        const scoreEl = document.getElementById("score");
+        const timeEl = document.getElementById("time");
+        const endgameEl = document.getElementById("end-game-container");
+        // myAudio = new Audio('song2.mp3'); 
+        // myAudio.volume = 0.2;
+        // if (typeof myAudio.loop == 'boolean')
+        // {
+        //     myAudio.loop = true;
+        // }
+        // else
+        // {
+        //     myAudio.addEventListener('ended', function() {
+        //         this.currentTime = 0;
+        //         this.play();
+        //     }, false);
+        // }
+        // myAudio.play();
+        
+        
+        // //list of words
+        // const words = ['ACCOUNT','ACCURATE','ACRES','ACROSS','ACT','ACTION','ACTIVE','ACTIVITY',
+        // 'ACTUAL','ACTUALLY','ADD','ADDITION','ADDITIONAL','ADJECTIVE','ADULT','ADVENTURE',
+        // 'ADVICE','AFFECT','AFRAID','AFTER','AFTERNOON','AGAIN','AGAINST','AGE',
+        // 'AGO','AGREE','AHEAD','AID','AIR','AIRPLANE','ALIKE','ALIVE',
+        // 'ALL','ALLOW','ALMOST','ALONE','ALONG','ALOUD','ALPHABET','ALREADY',
+        // 'ALSO','ALTHOUGH','AM','AMONG','AMOUNT','ANCIENT','ANGLE','ANGRY',
+        // 'ANIMAL','ANNOUNCED','ANOTHER','ANSWER','ANTS','ANY','ANYBODY','ANYONE',
+        // 'ANYTHING','ANYWAY','ANYWHERE','APART','APARTMENT','APPEARANCE','APPLE','APPLIED',
+        // 'APPROPRIATE','ARE','AREA','ARM','ARMY','AROUND','ARRANGE','ARRANGEMENT',
+        // 'ARRIVE','ARROW','ART','ARTICLE','AS','ASIDE','ASK','ASLEEP',
+        // 'AT','ATE','ATMOSPHERE','ATOM','ATOMIC','ATTACHED','ATTACK','ATTEMPT',
+        // 'ATTENTION','AUDIENCE','AUTHOR','AUTOMOBILE','AVAILABLE','AVERAGE','AVOID','AWARE',
+        // 'AWAY','BABY','BACK','BAD','BADLY','BAG','BALANCE','BALL',
+        // 'BALLOON','BAND','BANK','BAR','BARE','BARK','BARN','BASE',
+        // 'BASEBALL','BASIC','BASIS','BASKET','BAT','BATTLE','BE','BEAN',
+        // 'BEAR','BEAT','BEAUTIFUL','BEAUTY','BECAME','BECAUSE','BECOME','BECOMING',
+        // 'BEE','BEEN','BEFORE','BEGAN','BEGINNING','BEGUN','BEHAVIOR','BEHIND',
+        // 'BEING','BELIEVED','BELL','BELONG','BELOW','BELT','BEND','BENEATH',
+        // 'BENT','BESIDE','BEST','BET','BETTER','BETWEEN','BEYOND','BICYCLE',
+        // 'BIGGER','BIGGEST','BILL','BIRDS','BIRTH','BIRTHDAY','BIT','BITE',
+        // 'BLACK','BLANK','BLANKET','BLEW','BLIND','BLOCK','BLOOD','BLOW',
+        // 'BLUE','BOARD','BOAT','BODY','BONE','BOOK','BORDER','BORN',
+        // 'BOTH','BOTTLE','BOTTOM','BOUND','BOW','BOWL','BOX','BOY',
+        // 'BRAIN','BRANCH','BRASS','BRAVE','BREAD','BREAK','BREAKFAST','BREATH',
+        // 'BREATHE','BREATHING','BREEZE','BRICK','BRIDGE','BRIEF','BRIGHT','BRING',
+        // 'BROAD','BROKE','BROKEN','BROTHER','BROUGHT','BROWN','BRUSH','BUFFALO',
+        // 'BUILD','BUILDING','BUILT','BURIED','BURN','BURST','BUS','BUSH',
+        // 'BUSINESS','BUSY','BUT','BUTTER','BUY','BY','CABIN','CAGE',
+        // 'CAKE','CALL','CALM','CAME','CAMERA','CAMP','CAN','CANAL',
+        // 'CANNOT','CAP','CAPITAL','CAPTAIN','CAPTURED','CAR','CARBON','CARD',
+        // 'CARE','CAREFUL','CAREFULLY','CARRIED','CARRY','CASE','CAST','CASTLE',
+        // 'CAT','CATCH','CATTLE','CAUGHT','CAUSE','CAVE','CELL','CENT',
+        // 'CENTER','CENTRAL','CENTURY','CERTAIN','CERTAINLY','CHAIN','CHAIR','CHAMBER',
+        // 'CHANCE','CHANGE','CHANGING','CHAPTER','CHARACTER','CHARACTERISTIC','CHARGE','CHART',
+        // 'CHECK','CHEESE','CHEMICAL','CHEST','CHICKEN','CHIEF','CHILD','CHILDREN',
+        // 'CHOICE','CHOOSE','CHOSE','CHOSEN','CHURCH','CIRCLE','CIRCUS','CITIZEN',
+        // 'CITY','CLASS','CLASSROOM','CLAWS','CLAY','CLEAN','CLEAR','CLEARLY',
+        // 'CLIMATE','CLIMB','CLOCK','CLOSE', 'CLOSET', 'CLOSELY','CLOSER','CLOTH','CLOTHES',
+        // 'CLOTHING','CLOUD','CLUB','COACH','COAL','COAST','COAT','CODEPEN','COFFEE',
+        // 'COLD','COLLECT','COLLEGE','COLONY','COLOR','COLUMN','COMBINATION','COMBINE',
+        // 'COME','COMFORTABLE','COMING','COMMAND','COMMON','COMMUNITY','COMPANY','COMPARE',
+        // 'COMPASS','COMPLETE','COMPLETELY','COMPLEX','COMPOSED','COMPOSITION','COMPOUND','CONCERNED',
+        // 'CONDITION','CONGRESS','CONNECTED','CONSIDER','CONSIST','CONSONANT','CONSTANTLY','CONSTRUCTION',
+        // 'CONTAIN','CONTINENT','CONTINUED','CONTRAST','CONTROL','CONVERSATION','COOK','COOKIES',
+        // 'COOL','COPPER','COPY','CORN','CORNER','CORRECT','CORRECTLY','COST',
+        // 'COTTON','COULD','COUNT','COUNTRY','COUPLE','COURAGE','COURSE','COURT',
+        // 'COVER','COW','COWBOY','CRACK','CREAM','CREATE','CREATURE','CREW',
+        // 'CROP','CROSS','CROWD','CRY','CUP','CURIOUS','CURRENT','CURVE',
+        // 'CUSTOMS','CUT','CUTTING','DAILY','DAMAGE','DANCE','DANGER','DANGEROUS',
+        // 'DARK','DARKNESS','DATE','DAUGHTER','DAWN','DAY','DEAD','DEAL',
+        // 'DEAR','DEATH','DECIDE','DECLARED','DEEP','DEEPLY','DEER','DEFINITION',
+        // 'DEGREE','DEPEND','DEPTH','DESCRIBE','DESERT','DESIGN','DESK','DETAIL',
+        // 'DETERMINE','DEVELOP','DEVELOPMENT','DIAGRAM','DIAMETER','DID','DIE','DIFFER',
+        // 'DIFFERENCE','DIFFERENT','DIFFICULT','DIFFICULTY','DIG','DINNER','DIRECT','DIRECTION',
+        // 'DIRECTLY','DIRT','DIRTY','DISAPPEAR','DISCOVER','DISCOVERY','DISCUSS','DISCUSSION',
+        // 'DISEASE','DISH','DISTANCE','DISTANT','DIVIDE','DIVISION','DO','DOCTOR',
+        // 'DOES','DOG','DOING','DOLL','DOLLAR','DONE','DONKEY','DOOR',
+        // 'DOT','DOUBLE','DOUBT','DOWN','DOZEN','DRAW','DRAWN','DREAM',
+        // 'DRESS','DREW','DRIED','DRINK','DRIVE','DRIVEN','DRIVER','DRIVING',
+        // 'DROP','DROPPED','DROVE','DRY','DUCK','DUE','DUG','DULL',
+        // 'DURING','DUST','DUTY','EACH','EAGER','EAR','EARLIER','EARLY',
+        // 'EARN','EARTH','EASIER','EASILY','EAST','EASY','EAT','EATEN',
+        // 'EDGE','EDUCATION','EFFECT','EFFORT','EGG','EIGHT','EITHER','ELECTRIC',
+        // 'ELECTRICITY','ELEMENT','ELEPHANT','ELEVEN','ELSE','EMPTY','END','ENEMY',
+        // 'ENERGY','ENGINE','ENGINEER','ENJOY','ENOUGH','ENTER','ENTIRE','ENTIRELY',
+        // 'ENVIRONMENT','EQUAL','EQUALLY','EQUATOR','EQUIPMENT','ESCAPE','ESPECIALLY','ESSENTIAL',
+        // 'ESTABLISH','EVEN','EVENING','EVENT','EVENTUALLY','EVER','EVERY','EVERYBODY',
+        // 'EVERYONE','EVERYTHING','EVERYWHERE','EVIDENCE','EXACT','EXACTLY','EXAMINE','EXAMPLE',
+        // 'EXCELLENT','EXCEPT','EXCHANGE','EXCITED','EXCITEMENT','EXCITING','EXCLAIMED','EXERCISE',
+        // 'EXIST','EXPECT','EXPERIENCE','EXPERIMENT','EXPLAIN','EXPLANATION','EXPLORE','EXPRESS',
+        // 'EXPRESSION','EXTRA','EYE','FACE','FACING','FACT','FACTOR','FACTORY',
+        // 'FAILED','FAIR','FAIRLY','FALL','FALLEN','FAMILIAR','FAMILY','FAMOUS',
+        // 'FAR','FARM','FARMER','FARTHER','FAST','FASTENED','FASTER','FAT',
+        // 'FATHER','FAVORITE','FEAR','FEATHERS','FEATURE','FED','FEED','FEEL',
+        // 'FEET','FELL','FELLOW','FELT','FENCE','FEW','FEWER','FIELD',
+        // 'FIERCE','FIFTEEN','FIFTH','FIFTY','FIGHT','FIGHTING','FIGURE','FILL',
+        // 'FILM','FINAL','FINALLY','FIND','FINE','FINEST','FINGER','FINISH',
+        // 'FIRE','FIREPLACE','FIRM','FIRST','FISH','FIVE','FIX','FLAG',
+        // 'FLAME','FLAT','FLEW','FLIES','FLIGHT','FLOATING','FLOOR','FLOW',
+        // 'FLOWER','FLY','FOG','FOLKS','FOLLOW','FOOD','FOOT','FOOTBALL',
+        // 'FOR','FORCE','FOREIGN','FOREST','FORGET','FORGOT','FORGOTTEN','FORM',
+        // 'FORMER','FORT','FORTH','FORTY','FORWARD','FOUGHT','FOUND','FOUR',
+        // 'FOURTH','FOX','FRAME','FREE','FREEDOM','FREQUENTLY','FRESH','FRIEND',
+        // 'FRIENDLY','FRIGHTEN','FROG','FROM','FRONT','FROZEN','FRUIT','FUEL',
+        // 'FULL','FULLY','FUN','FUNCTION','FUNNY','FUR','FURNITURE','FURTHER',
+        // 'FUTURE','GAIN','GAME','GARAGE','GARDEN','GAS','GASOLINE','GATE',
+        // 'GATHER','GAVE','GENERAL','GENERALLY','GENTLE','GENTLY','GET','GETTING',
+        // 'GIANT','GIFT','GIRL','GIVE','GIVEN','GIVING','GLAD','GLASS',
+        // 'GLOBE','GO','GOES','GOLD','GOLDEN','GONE','GOOD','GOOSE',
+        // 'GOT','GOVERNMENT','GRABBED','GRADE','GRADUALLY','GRAIN','GRANDFATHER','GRANDMOTHER',
+        // 'GRAPH','GRASS','GRAVITY','GRAY','GREAT','GREATER','GREATEST','GREATLY',
+        // 'GREEN','GREW','GROUND','GROUP','GROW','GROWN','GROWTH','GUARD',
+        // 'GUESS','GUIDE','GULF','GUN','HABIT','HAD','HAIR','HALF',
+        // 'HALFWAY','HALL','HAND','HANDLE','HANDSOME','HANG','HAPPEN','HAPPENED',
+        // 'HAPPILY','HAPPY','HARBOR','HARD','HARDER','HARDLY','HAS','HAT',
+        // 'HAVE','HAVING','HAY','HE','HEADED','HEADING','HEALTH','HEARD',
+        // 'HEARING','HEART','HEAT','HEAVY','HEIGHT','HELD','HELLO','HELP',
+        // 'HELPFUL','HER','HERD','HERE','HERSELF','HIDDEN','HIDE','HIGH',
+        // 'HIGHER','HIGHEST','HIGHWAY','HILL','HIM','HIMSELF','HIS','HISTORY',
+        // 'HIT','HOLD','HOLE','HOLLOW','HOME','HONOR','HOPE','HORN',
+        // 'HORSE','HOSPITAL','HOT','HOUR','HOUSE','HOW','HOWEVER','HUGE',
+        // 'HUMAN','HUNDRED','HUNG','HUNGRY','HUNT','HUNTER','HURRIED','HURRY',
+        // 'HURT','HUSBAND','ICE','IDEA','IDENTITY','IF','ILL','IMAGE',
+        // 'IMAGINE','IMMEDIATELY','IMPORTANCE','IMPORTANT','IMPOSSIBLE','IMPROVE','IN','INCH',
+        // 'INCLUDE','INCLUDING','INCOME','INCREASE','INDEED','INDEPENDENT','INDICATE','INDIVIDUAL',
+        // 'INDUSTRIAL','INDUSTRY','INFLUENCE','INFORMATION','INSIDE','INSTANCE','INSTANT','INSTEAD',
+        // 'INSTRUMENT','INTEREST','INTERIOR','INTO','INTRODUCED','INVENTED','INVOLVED','IRON',
+        // 'IS','ISLAND','IT','ITS','ITSELF','JACK','JAR','JET',
+        // 'JOB','JOIN','JOINED','JOURNEY','JOY','JUDGE','JUMP','JUNGLE',
+        // 'JUST','KEEP','KEPT','KEY','KIDS','KILL','KIND','KITCHEN',
+        // 'KNEW','KNIFE','KNOW','KNOWLEDGE','KNOWN','LABEL','LABOR','LACK',
+        // 'LADY','LAID','LAKE','LAMP','LAND','LANGUAGE','LARGE','LARGER',
+        // 'LARGEST','LAST','LATE','LATER','LAUGH','LAW','LAY','LAYERS',
+        // 'LEAD','LEADER','LEAF','LEARN','LEAST','LEATHER','LEAVE','LEAVING',
+        // 'LED','LEFT','LEG','LENGTH','LESSON','LET','LETTER','LEVEL',
+        // 'LIBRARY','LIE','LIFE','LIFT','LIGHT','LIKE','LIKELY','LIMITED',
+        // 'LINE','LION','LIPS','LIQUID','LIST','LISTEN','LITTLE','LIVE',
+        // 'LIVING','LOAD','LOCAL','LOCATE','LOCATION','LOG','LONELY','LONG',
+        // 'LONGER','LOOK','LOOSE','LOSE','LOSS','LOST','LOT','LOUD',
+        // 'LOVE','LOVELY','LOW','LOWER','LUCK','LUCKY','LUNCH','LUNGS',
+        // 'LYING','MACHINE','MACHINERY','MAD','MADE','MAGIC','MAGNET','MAIL',
+        // 'MAIN','MAINLY','MAJOR','MAKE','MAKING','MAN','MANAGED','MANNER',
+        // 'MANUFACTURING','MANY','MAP','MARK','MARKET','MARRIED','MASS','MASSAGE',
+        // 'MASTER','MATERIAL','MATHEMATICS','MATTER','MAY','MAYBE','ME','MEAL',
+        // 'MEAN','MEANS','MEANT','MEASURE','MEAT','MEDICINE','MEET','MELTED',
+        // 'MEMBER','MEMORY','MEN','MENTAL','MERELY','MET','METAL','METHOD',
+        // 'MICE','MIDDLE','MIGHT','MIGHTY','MILE','MILITARY','MILK','MILL',
+        // 'MIND','MINE','MINERALS','MINUTE','MIRROR','MISSING','MISSION','MISTAKE',
+        // 'MIX','MIXTURE','MODEL','MODERN','MOLECULAR','MOMENT','MONEY','MONKEY',
+        // 'MONTH','MOOD','MOON','MORE','MORNING','MOST','MOSTLY','MOTHER',
+        // 'MOTION','MOTOR','MOUNTAIN','MOUSE','MOUTH','MOVE','MOVEMENT','MOVIE',
+        // 'MOVING','MUD','MUSCLE','MUSIC','MUSICAL','MUST','MY','MYSELF',
+        // 'MYSTERIOUS','NAILS','NAME','NATION','NATIONAL','NATIVE','NATURAL','NATURALLY',
+        // 'NATURE','NEAR','NEARBY','NEARER','NEAREST','NEARLY','NECESSARY','NECK',
+        // 'NEEDED','NEEDLE','NEEDS','NEGATIVE','NEIGHBOR','NEIGHBORHOOD','NERVOUS','NEST',
+        // 'NEVER','NEW','NEWS','NEWSPAPER','NEXT','NICE','NIGHT','NINE',
+        // 'NO','NOBODY','NODDED','NOISE','NONE','NOON','NOR','NORTH',
+        // 'NOSE','NOT','NOTE','NOTED','NOTHING','NOTICE','NOUN','NOW',
+        // 'NUMBER','NUMERAL','NUTS','OBJECT','OBSERVE','OBTAIN','OCCASIONALLY','OCCUR',
+        // 'OCEAN','OF','OFF','OFFER','OFFICE','OFFICER','OFFICIAL','OIL',
+        // 'OLD','OLDER','OLDEST','ON','ONCE','ONE','ONLY','ONTO',
+        // 'OPEN','OPERATION','OPINION','OPPORTUNITY','OPPOSITE','OR','ORANGE','ORBIT',
+        // 'ORDER','ORDINARY','ORGANIZATION','ORGANIZED','ORIGIN','ORIGINAL','OTHER','OUGHT',
+        // 'OUR','OURSELVES','OUT','OUTER','OUTLINE','OUTSIDE','OVER','OWN',
+        // 'OWNER','OXYGEN','PACK','PACKAGE','PAGE','PAID','PAIN','PAINT',
+        // 'PAIR','PALACE','PALE','PAN','PAPER','PARAGRAPH','PARALLEL','PARENT',
+        // 'PARK','PART','PARTICLES','PARTICULAR','PARTICULARLY','PARTLY','PARTS','PARTY',
+        // 'PASS','PASSAGE','PAST','PATH','PATTERN','PAY','PEACE','PEN',
+        // 'PENCIL','PEOPLE','PER','PERCENT','PERFECT','PERFECTLY','PERHAPS','PERIOD',
+        // 'PERSON','PERSONAL','PET','PHRASE','PHYSICAL','PIANO','PICK','PICTURE',
+        // 'PICTURED','PIE','PIECE','PIG','PILE','PILOT','PINE','PINK',
+        // 'PIPE','PITCH','PLACE','PLAIN','PLAN','PLANE','PLANET','PLANNED',
+        // 'PLANNING','PLANT','PLASTIC','PLATE','PLATES','PLAY','PLEASANT','PLEASE',
+        // 'PLEASURE','PLENTY','PLURAL','PLUS','POCKET','POEM','POET','POETRY',
+        // 'POINT','POLE','POLICE','POLICEMAN','POLITICAL','POND','PONY','POOL',
+        // 'POOR','POPULAR','POPULATION','PORCH','PORT','POSITION','POSITIVE','POSSIBLE',
+        // 'POSSIBLY','POST','POT','POTATOES','POUND','POUR','POWDER','POWER',
+        // 'POWERFUL','PRACTICAL','PRACTICE','PREPARE','PRESENT','PRESIDENT','PRESS','PRESSURE',
+        // 'PRETTY','PREVENT','PREVIOUS','PRICE','PRIDE','PRIMITIVE','PRINCIPAL','PRINCIPLE',
+        // 'PRINTED','PRIVATE','PRIZE','PROBABLY','PROBLEM','PROCESS','PRODUCE','PRODUCT',
+        // 'PRODUCTION','PROGRAM','PROGRESS','PROMISED','PROPER','PROPERLY','PROPERTY','PROTECTION',
+        // 'PROUD','PROVE','PROVIDE','PUBLIC','PULL','PUPIL','PURE','PURPLE',
+        // 'PURPOSE','PUSH','PUT','PUTTING','QUARTER','QUEEN','QUESTION','QUICK',
+        // 'QUICKLY','QUIET','QUIETLY','QUITE','RABBIT','RACE','RADIO','RAILROAD',
+        // 'RAIN','RAISE','RAN','RANCH','RANGE','RAPIDLY','RATE','RATHER',
+        // 'RAW','RAYS','REACH','READ','READER','READY','REAL','REALIZE',
+        // 'REAR','REASON','RECALL','RECEIVE','RECENT','RECENTLY','RECOGNIZE','RECORD',
+        // 'RED','REFER','REFUSED','REGION','REGULAR','RELATED','RELATIONSHIP','RELIGIOUS',
+        // 'REMAIN','REMARKABLE','REMEMBER','REMOVE','REPEAT','REPLACE','REPLIED','REPORT',
+        // 'REPRESENT','REQUIRE','RESEARCH','RESPECT','REST','RESULT','RETURN','REVIEW',
+        // 'RHYME','RHYTHM','RICE','RICH','RIDE','RIDING','RIGHT','RING',
+        // 'RISE','RISING','RIVER','ROAD','ROAR','ROCK','ROCKET','ROCKY',
+        // 'ROD','ROLL','ROOF','ROOM','ROOT','ROPE','ROSE','ROUGH',
+        // 'ROUND','ROUTE','ROW','RUBBED','RUBBER','RULE','RULER','RUN',
+        // 'RUNNING','RUSH','SAD','SADDLE','SAFE','SAFETY','SAID','SAIL',
+        // 'SALE','SALMON','SALT','SAME','SAND','SANG','SAT','SATELLITES',
+        // 'SATISFIED','SAVE','SAVED','SAW','SAY','SCALE','SCARED','SCENE',
+        // 'SCHOOL','SCIENCE','SCIENTIFIC','SCIENTIST','SCORE','SCREEN','SEA','SEARCH',
+        // 'SEASON','SEAT','SECOND','SECRET','SECTION','SEE','SEED','SEEING',
+        // 'SEEMS','SEEN','SELDOM','SELECT','SELECTION','SELL','SEND','SENSE',
+        // 'SENT','SENTENCE','SEPARATE','SERIES','SERIOUS','SERVE','SERVICE','SETS',
+        // 'SETTING','SETTLE','SETTLERS','SEVEN','SEVERAL','SHADE','SHADOW','SHAKE',
+        // 'SHAKING','SHALL','SHALLOW','SHAPE','SHARE','SHARP','SHE','SHEEP',
+        // 'SHEET','SHELF','SHELLS','SHELTER','SHINE','SHINNING','SHIP','SHIRT',
+        // 'SHOE','SHOOT','SHOP','SHORE','SHORT','SHORTER','SHOT','SHOULD',
+        // 'SHOULDER','SHOUT','SHOW','SHOWN','SHUT','SICK','SIDES','SIGHT',
+        // 'SIGN','SIGNAL','SILENCE','SILENT','SILK','SILLY','SILVER','SIMILAR',
+        // 'SIMPLE','SIMPLEST','SIMPLY','SINCE','SING','SINGLE','SINK','SISTER',
+        // 'SIT','SITTING','SITUATION','SIX','SIZE','SKILL','SKIN','SKY',
+        // 'SLABS','SLAVE','SLEEP','SLEPT','SLIDE','SLIGHT','SLIGHTLY','SLIP',
+        // 'SLIPPED','SLOPE','SLOW','SLOWLY','SMALL','SMALLER','SMALLEST','SMELL',
+        // 'SMILE','SMOKE','SMOOTH','SNAKE','SNOW','SO','SOAP','SOCIAL',
+        // 'SOCIETY','SOFT','SOFTLY','SOIL','SOLAR','SOLD','SOLDIER','SOLID',
+        // 'SOLUTION','SOLVE','SOME','SOMEBODY','SOMEHOW','SOMEONE','SOMETHING','SOMETIME',
+        // 'SOMEWHERE','SON','SONG','SOON','SORT','SOUND','SOURCE','SOUTH',
+        // 'SOUTHERN','SPACE','SPEAK','SPECIAL','SPECIES','SPECIFIC','SPEECH','SPEED',
+        // 'SPELL','SPEND','SPENT','SPIDER','SPIN','SPIRIT','SPITE','SPLIT',
+        // 'SPOKEN','SPORT','SPREAD','SPRING','SQUARE','STAGE','STAIRS','STAND',
+        // 'STANDARD','STAR','STARED','START','STATE','STATEMENT','STATION','STAY',
+        // 'STEADY','STEAM','STEEL','STEEP','STEMS','STEP','STEPPED','STICK',
+        // 'STIFF','STILL','STOCK','STOMACH','STONE','STOOD','STOP','STOPPED',
+        // 'STORE','STORM','STORY','STOVE','STRAIGHT','STRANGE','STRANGER','STRAW',
+        // 'STREAM','STREET','STRENGTH','STRETCH','STRIKE','STRING','STRIP','STRONG',
+        // 'STRONGER','STRUCK','STRUCTURE','STRUGGLE','STUCK','STUDENT','STUDIED','STUDYING',
+        // 'SUBJECT','SUBSTANCE','SUCCESS','SUCCESSFUL','SUCH','SUDDEN','SUDDENLY','SUGAR',
+        // 'SUGGEST','SUIT','SUM','SUMMER','SUN','SUNLIGHT','SUPPER','SUPPLY',
+        // 'SUPPORT','SUPPOSE','SURE','SURFACE','SURPRISE','SURROUNDED','SWAM','SWEET',
+        // 'SWEPT','SWIM','SWIMMING','SWING','SWUNG','SYLLABLE','SYMBOL','SYSTEM',
+        // 'TABLE','TAIL','TAKE','TAKEN','TALES','TALK','TALL','TANK',
+        // 'TAPE','TASK','TASTE','TAUGHT','TAX','TEA','TEACH','TEACHER',
+        // 'TEAM','TEARS','TEETH','TELEPHONE','TELEVISION','TELL','TEMPERATURE','TEN',
+        // 'TENT','TERM','TERRIBLE','TEST','THAN','THANK','THAT','THEE',
+        // 'THEM','THEMSELVES','THEN','THEORY','THERE','THEREFORE','THESE','THEY',
+        // 'THICK','THIN','THING','THINK','THIRD','THIRTY','THIS','THOSE',
+        // 'THOU','THOUGH','THOUGHT','THOUSAND','THREAD','THREE','THREW','THROAT',
+        // 'THROUGH','THROUGHOUT','THROW','THROWN','THUMB','THUS','THY','TIDE',
+        // 'TIE','TIGHT','TIGHTLY','TILL','TIME','TIN','TINY','TIP',
+        // 'TIRED','TITLE','TO','TOBACCO','TODAY','TOGETHER','TOLD','TOMORROW',
+        // 'TONE','TONGUE','TONIGHT','TOO','TOOK','TOOL','TOP','TOPIC',
+        // 'TORN','TOTAL','TOUCH','TOWARD','TOWER','TOWN','TOY','TRACE',
+        // 'TRACK','TRADE','TRAFFIC','TRAIL','TRAIN','TRANSPORTATION','TRAP','TRAVEL',
+        // 'TREATED','TREE','TRIANGLE','TRIBE','TRICK','TRIED','TRIP','TROOPS',
+        // 'TROPICAL','TROUBLE','TRUCK','TRUNK','TRUTH','TRY','TUBE','TUNE',
+        // 'TURN','TWELVE','TWENTY','TWICE','TWO','TYPE','TYPICAL','UNCLE',
+        // 'UNDER','UNDERLINE','UNDERSTANDING','UNHAPPY','UNION','UNIT','UNIVERSE','UNKNOWN',
+        // 'UNLESS','UNTIL','UNUSUAL','UP','UPON','UPPER','UPWARD','US',
+        // 'USE','USEFUL','USING','USUAL','USUALLY','VALLEY','VALUABLE','VALUE',
+        // 'VAPOR','VARIETY','VARIOUS','VAST','VEGETABLE','VERB','VERTICAL','VERY',
+        // 'VESSELS','VICTORY','VIEW','VILLAGE','VISIT','VISITOR','VOICE','VOLUME',
+        // 'VOTE','VOWEL','VOYAGE','WAGON','WAIT','WALK','WALL','WANT',
+        // 'WAR','WARM','WARN','WAS','WASH','WASTE','WATCH','WATER',
+        // 'WAVE','WAY','WE','WEAK','WEALTH','WEAR','WEATHER','WEEK',
+        // 'WEIGH','WEIGHT','WELCOME','WELL','WENT','WERE','WEST','WESTERN',
+        // 'WET','WHALE','WHAT','WHATEVER','WHEAT','WHEEL','WHEN','WHENEVER',
+        // 'WHERE','WHEREVER','WHETHER','WHICH','WHILE','WHISPERED','WHISTLE','WHITE',
+        // 'WHO','WHOLE','WHOM','WHOSE','WHY','WIDE','WIDELY','WIFE',
+        // 'WILD','WILL','WILLING','WIN','WIND','WINDOW','WING','WINTER',
+        // 'WIRE','WISE','WISH','WITH','WITHIN','WITHOUT','WOLF','WOMEN',
+        // 'WON','WONDER','WONDERFUL','WOOD','WOODEN','WOOL','WORD','WORE',
+        // 'WORK','WORKER','WORLD','WORRIED','WORRY','WORSE','WORTH','WOULD',
+        // 'WRAPPED','WRITE','WRITER','WRITING','WRITTEN','WRONG','WROTE','YARD',
+        // 'YEAR','YELLOW','YES','YESTERDAY','YET','YOU','YOUNG','YOUNGER',
+        // 'YOUR','YOURSELF','YOUTH','ZERO','ZOO'];
+        
+        // //init word
+        // let randomWord;
+        // let score = 0;
+        // let time = 10;
+        // //focus on text
+        // text.focus();
+        // //start count down
+        const timeInterval = setInterval(updateTime, 1000);
+        //generate random word
+        // function getRandomWord() {
+        //   return words[Math.floor(Math.random() * words.length)];
+        // }
+        //add word to dom
+        // function addWordToDOM() {
+        //   randomWord = getRandomWord();
+        //   word.innerHTML = randomWord;
+        // }
+        addWordToDOM();
+        function updateScore() {
+          score++;
+          scoreEl.setAttribute('value',score);
+        }
+        function updateTime() {
+          time--;
+          timeEl.innerHTML = time + "s";
+          if (time === 0) {
+            clearInterval(timeInterval);
+            gameOver();
+          }
+        }
+        function gameOver() {
+          endgameEl.innerHTML = `
+          <div style="text-align:center;">
+                <h1 style="font-size:45px; color:red;margin-top:40px">Time Ran Out !!!</h1>
+            </div>`;
+            word.innerHTML = "GAME OVER";
+            text.type = "hidden";
+            
+          document.getElementById("fscore").innerHTML = `
+                    <p style="font-size:50px; color:#ffff70; padding-left: 62px; ">Your Final Score : ${score} </p>
+                    <button onclick="location.reload()" class="try_again">Tryagain</button>
+            `;
+         //    `
+        //   <div style="text-align:center;">
+        //         <p style= "font-size:50px; font-weight:bold; margin-top:100px;">Time Ran Out !!!</p>
+                
+        //         <div class= "fscore" style= "float:left; margin-top: 100px;" >
+        //         <p style= "font-size: 56px; font-weight: bold;">Your Final Score : ${score} </p>
+        //         </div>
+                
+        //         <div class= "try_again" style= "float: right;">
+        //         <button onclick="location.reload()" style="width:250px; height: 75px; font-size: 36px; background-color: transparent; background-repeat: no-repeat; border: 3px inset;  cursor: pointer; overflow: hidden; outline: none; border-radius: 20%; color : white;" >Try Again</button>
+        //         </div>
+        //     </div>
+        //     `;
+        //   endgameEl.style.display = "flex";
+            savescore(scoreEl.value);
+        }
+        text.addEventListener("input", (e) => {
+          const insetedText = e.target.value;
+          if (insetedText === randomWord) {
+            addWordToDOM();
+            updateScore();
+            e.target.value = "";
+            time+=3;
+        
+            updateTime();
+          }
+        });
+
+        function savescore(score) { 
+        x1 = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("status","savescore");
+        formData.append("score",score);
+        x1.open("POST", "main.php", true);
+        x1.send(formData);
+        x1.onreadystatechange=function() {
+          if(x1.readyState==4 && x1.status==200) {
+              alert(x1.responseText);
+            // document.getElementById("res").innerHTML = x1.responseText;
+          }
+        }
+        }
+        
+     
+        
+        function getdata() {
+        req = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("status","getdata");
+        req.open("POST", "main.php", true);
+        req.send(formData);
+        req.onreadystatechange=function() {
+          if(req.readyState==4 && req.status==200) {
+            var UserDatas = JSON.parse(req.responseText);
+            //Insert data of current logged user from the server into the user profile section in the page
+            document.getElementById("username").innerHTML = UserDatas[0].username;
+            document.getElementById("pp").src = UserDatas[0].pp;
+            console.log("username from $_SESSION variable in the server : " + UserDatas[0].username);
+            console.log("profile picture location from $_SESSION variable in the server : " + UserDatas[0].pp);
+            
+            //Insert data from the database into the leaderboard section in the page
+            let sortedLeaderboard = UserDatas[1];
+            sortedLeaderboard.forEach(addLeaderboard);
+            confirm("Are you ready?");
+          }
+        }
+        }
+        
+        function addLeaderboard(item, index) {
+          document.getElementById("leaderContainer").innerHTML +=  '<p style="font-size:28px; width:220px; margin-bottom:40px; border-radius:4%; background-color:#bb2af5; ">' + (index+1) +'. '+'<img style="height:40px; width:40px; vertical-align:middle;" src="' + item["pp"] +'"></img>'+' '+item["username"]+' - '+item["score"]+'</p>'; 
+        }
+        
+       
+        
+        function deleteAccount() {
+        req = new XMLHttpRequest();
+        let formData = new FormData();
+        formData.append("status","delete");
+        req.open("POST", "main.php", true);
+        req.send(formData);
+        req.onreadystatechange=function() {
+          if(req.readyState==4 && req.status==200) {
+            alert(req.responseText);
+            window.location.href = 'loggin.html';
+          }
+        }
+        }
+        
+        function logout()
+        {
+            window.location.href = 'loggin.html';
+        }
+        
+        
+    
+      </script>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register for Space Typing Game</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    @font-face{
+    font-family:"snk";
+    src:url('snk.ttf') format('truetype');
+    }
+    body{
+        font-family:"snk";
+        color:white;
+        
+      }
+      input{
+          font-family:"snk";
+      }
+      button{
+          font-family:"snk";
+      }
+  </style>
+</head>
+<body style="background-image:url('Images/login-gif.gif'); background-repeat: no-repeat; background-size: cover; color:white;">
+  <div class="header" style="background:none; font-size:27px;">
+  	<h2 style="color:orange">Register</h2>
+  </div>
+	
+	<div class="form" style="background:none; font-size:30px;">
+  	<div class="input-group">
+  	  <label style="color:red">Username</label>
+  	  <input type="text" name="username" id="username">
+  	</div>
+  	<div class="input-group">
+  	  <label style="color:green">Password</label>
+  	  <input type="password" name="password_1" id="password">
+  	</div>
+  	<div class="input-group">
+  	  <label style="color:royalblue">Select Your Country</label>
+  	  <select id="nations" style="font-family:'snk'; font-size:20px; width:200px;border-radius:5px;">
+        <option>Argentina</option>
+        <option>Canada</option>
+        <option>China</option>
+        <option>Cuba</option>
+        <option>Finland</option>
+        <option>France</option>
+        <option>Germany</option>
+        <option>Indonesia</option>
+        <option>Italy</option>
+        <option>Japan</option>
+        <option>Portugal</option>
+        <option>Russia</option>
+        <option>Singapore</option>
+        <option>South Korea</option>
+        <option>Spain</option>
+        <option>Switzerland</option>
+        <option>Thailand</option>
+        <option>UEA</option>
+        <option>UK</option>
+        <option>USA</option>
+      </select>
+  	</div>
+  	<div class="input-group">
+  	  <label style="color:pink">Insert Profile Picture</label>
+  	  <input type="file" id="pp">
+  	</div>
+  	<div class="input-group">
+  	  <button type="submit" class="btn" name="reg_user" onclick="svdata()">Register</button>
+  	</div>
+  	<p>
+  		Already a member? <a href="loggin.html">Sign in</a>
+  	</p>
+  	</div>
+  <span id="res"></span>
+  <script>
+        var select = document.getElementById('nations');
+        // function svdata() { 
+        // document.getElementById("res").innerHTML = "SVDATA CALLED";
+        
+        // var username = document.getElementById("username").value;
+        // var password = document.getElementById("password").value;
+        
+        // x1 = new XMLHttpRequest();
+        // x1.open("GET","svdata.php?username="+username+"&password="+password,true);
+        // x1.send();
+        // x1.onreadystatechange=function() {
+        //   if(x1.readyState==4 && x1.status==200) {
+        //     alert(x1.responseText);
+        //   }
+        // }
+        // }
+        
+        function svdata() {
+            let nation = select.options[select.selectedIndex].value;
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let photo = document.getElementById("pp").files[0]; //file input
+            
+            let req = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append("status", "registration");
+            formData.append("username", username);
+            formData.append("password", password);
+            formData.append("photo", photo);
+            formData.append("nation", nation);
+            req.open("POST", "main.php", true);
+            req.send(formData);
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                  alert(this.responseText);
+                  window.location.replace('loggin.html');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
